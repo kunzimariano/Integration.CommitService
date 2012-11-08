@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using CommitService.Contract;
 using Infrastructure.Composition;
 using ServiceStack.Messaging;
