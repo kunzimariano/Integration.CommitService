@@ -25,14 +25,21 @@ namespace CommitService
         {
             var translationResult = Translate(request);
 
-            using (var producer = MessageFactory.CreateMessageProducer())
+            if (translationResult != null)
             {
-                producer.Publish(translationResult.Message);
-            }
+                using (var producer = MessageFactory.CreateMessageProducer())
+                {
+                    producer.Publish(translationResult.Message);
+                }
 
-            // Note: Should return false when cannot, instead of throwing the exception,
-            // which will require manually sending to the DeadLetterQueue I think...
-            return new CommitAcknowledge { CanProcess = true };
+                // Note: Should return false when cannot, instead of throwing the exception,
+                // which will require manually sending to the DeadLetterQueue I think...
+                return new CommitAcknowledge { CanProcess = true };
+            }
+            else
+            {
+                return new CommitAcknowledge { CanProcess = false };
+            }
         }
 
         private TranslateCommitAttemptResult Translate(CommitAttempt attempt)
@@ -59,7 +66,8 @@ namespace CommitService
                 }
             }
 
-            throw new TranslatorNotFoundException(attempt);
+            return null;
+            //throw new TranslatorNotFoundException(attempt);
         }
 
         public object Any(CommitMessage message)
