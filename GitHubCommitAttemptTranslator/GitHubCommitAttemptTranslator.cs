@@ -1,8 +1,13 @@
 using System.ComponentModel.Composition;
+using System.Text.RegularExpressions;
 using CommitService.Contract;
 
 namespace GitHubCommitAttemptTranslator
 {
+    /// <summary>
+    /// Translates incoming post-receive hook POST bodies from GitHub into a CommitMessage. See
+    /// https://help.github.com/articles/post-receive-hooks for info on the format. 
+    /// </summary>
     [Export(typeof(ITranslateCommitAttempt))]
     public class GitHubCommitAttemptTranslator : ITranslateCommitAttempt
     {
@@ -15,9 +20,18 @@ namespace GitHubCommitAttemptTranslator
             };
         }
 
+        private Regex _taster = new Regex(@"['""]repository['""]:\s*?\{\s*['""]url['""]:\s*?[""']http://github.com");
+
         public bool CanProcess(CommitAttempt attempt)
         {
-            return attempt.Raw.ToLower().Contains("source:'github'");
+            if (string.IsNullOrEmpty(attempt.Raw))
+            {
+                return false;
+            }
+
+            var isMatch = _taster.IsMatch(attempt.Raw);
+
+            return isMatch;
         }
     }
 }
