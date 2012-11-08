@@ -20,7 +20,7 @@ namespace GitHubCommitAttemptTranslator
             };
         }
 
-        private Regex _taster = new Regex(@"['""]repository['""]:\s*?\{\s*['""]url['""]:\s*?[""']http://github.com");
+        private Regex _taster = new Regex(@"['""]repository['""]\s*?:\s*?\{\s*['""]url['""]\s*?:\s*?[""']http://github.com", RegexOptions.IgnoreCase);
 
         public bool CanProcess(CommitAttempt attempt)
         {
