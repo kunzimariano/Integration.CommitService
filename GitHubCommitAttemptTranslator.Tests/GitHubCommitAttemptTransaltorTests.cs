@@ -6,7 +6,7 @@ namespace GitHubCommitAttemptTranslator.Tests
     [TestFixture]
     public class GitHubCommitAttemptTransaltorTests
     {
-        private GitHubCommitAttemptTranslator subject = new GitHubCommitAttemptTranslator();
+        private readonly GitHubCommitAttemptTranslator subject = new GitHubCommitAttemptTranslator();
 
         #region Pos
 
