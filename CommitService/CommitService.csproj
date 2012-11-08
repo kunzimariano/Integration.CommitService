@@ -40,12 +40,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Abstractions">
-      <HintPath>..\packages\RavenDB.Client.1.2.2127-Unstable\lib\net40\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\packages\RavenDB.Client.1.2.2127-Unstable\lib\net40\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\packages\ServiceStack.3.9.25\lib\net35\ServiceStack.dll</HintPath>
     </Reference>
@@ -111,9 +105,17 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BitBucketCommitAttemptTranslator\BitBucketCommitAttemptTranslator.csproj">
+      <Project>{806FF908-32E3-4332-99E7-9B43185247DD}</Project>
+      <Name>BitBucketCommitAttemptTranslator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommitService.Contract\CommitService.Contract.csproj">
       <Project>{2394A23E-0861-44AB-BE9B-7CE4F4022D7A}</Project>
       <Name>CommitService.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GitHubCommitAttemptTranslator\GitHubCommitAttemptTranslator.csproj">
+      <Project>{127B136A-A878-46E5-9964-57FB792F5981}</Project>
+      <Name>GitHubCommitAttemptTranslator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}</Project>

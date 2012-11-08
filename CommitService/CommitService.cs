@@ -25,11 +25,9 @@ namespace CommitService
         {
             var translationResult = Translate(request);
 
-            var translationResults = new List<TranslateCommitAttemptResult> { translationResult };
-
             using (var producer = MessageFactory.CreateMessageProducer())
             {
-                translationResults.Select(t => t.Message).ToList().ForEach(producer.Publish);
+                producer.Publish(translationResult.Message);
             }
 
             // Note: Should return false when cannot, instead of throwing the exception,

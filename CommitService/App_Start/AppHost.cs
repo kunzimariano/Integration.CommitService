@@ -1,4 +1,8 @@
+using System.Reflection;
+using System.Web;
 using CommitService.Contract;
+using Infrastructure.Composition;
+using ServiceStack.Common.Utils;
 using ServiceStack.Messaging;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Messaging;
@@ -16,12 +20,14 @@ namespace CommitService.App_Start
 
         public override void Configure(Funq.Container container)
         {
+            PathProvider.BinaryPath = "~".MapAbsolutePath();
+
             ServiceStack.Text.JsConfig.EmitCamelCaseNames = true;
 
             Routes
                 .Add<CommitAttempt>("/commit")
-                //.Add<CommitMessage>("/commitMessage")
-                ;
+            //    //.Add<CommitMessage>("/commitMessage")
+              ;
 
             RequestBinders.Add(typeof(CommitAttempt), request => new CommitAttempt() { Raw = request.GetRawBody() });
 
