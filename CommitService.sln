@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitService", "CommitService\CommitService.csproj", "{ABCCF47A-C880-42C3-BF33-A8D300D844CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubCommitAttemptTranslator", "GitHubCommitAttemptTranslator\GitHubCommitAttemptTranslator.csproj", "{127B136A-A878-46E5-9964-57FB792F5981}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitService.Contract", "CommitService.Contract\CommitService.Contract.csproj", "{2394A23E-0861-44AB-BE9B-7CE4F4022D7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBucketCommitAttemptTranslator", "BitBucketCommitAttemptTranslator\BitBucketCommitAttemptTranslator.csproj", "{806FF908-32E3-4332-99E7-9B43185247DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Translators", "Translators", "{B0C1E7BE-3A80-4932-9B3E-541B00CDDBAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E5194EDB-853D-4ECC-AC8E-B10BDD5C72A7}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABCCF47A-C880-42C3-BF33-A8D300D844CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABCCF47A-C880-42C3-BF33-A8D300D844CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABCCF47A-C880-42C3-BF33-A8D300D844CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABCCF47A-C880-42C3-BF33-A8D300D844CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{127B136A-A878-46E5-9964-57FB792F5981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{127B136A-A878-46E5-9964-57FB792F5981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{127B136A-A878-46E5-9964-57FB792F5981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{127B136A-A878-46E5-9964-57FB792F5981}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2394A23E-0861-44AB-BE9B-7CE4F4022D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2394A23E-0861-44AB-BE9B-7CE4F4022D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2394A23E-0861-44AB-BE9B-7CE4F4022D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2394A23E-0861-44AB-BE9B-7CE4F4022D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806FF908-32E3-4332-99E7-9B43185247DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806FF908-32E3-4332-99E7-9B43185247DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806FF908-32E3-4332-99E7-9B43185247DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806FF908-32E3-4332-99E7-9B43185247DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{806FF908-32E3-4332-99E7-9B43185247DD} = {B0C1E7BE-3A80-4932-9B3E-541B00CDDBAE}
+		{127B136A-A878-46E5-9964-57FB792F5981} = {B0C1E7BE-3A80-4932-9B3E-541B00CDDBAE}
+	EndGlobalSection
+EndGlobal
