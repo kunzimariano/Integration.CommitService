@@ -9,7 +9,7 @@ This project is not ready for use just yet with VersionOne. It's still being bak
 
 # Built on open source
 
-It is being built on top of the open source [ServiceStack](http://www.servicestack.net/) project. Many thanks already to [Demis Bellot](https://github.com/mythz) for his assitance in the [ServiceStack chat room in Jabbr](http://jabbr.net/#/rooms/servicestack)
+It is being built on top of the open source [ServiceStack](http://www.servicestack.net/) project. Many thanks already to [Demis Bellot](https://github.com/mythz) for his assistance in the [ServiceStack chat room in Jabbr](http://jabbr.net/#/rooms/servicestack)
 
 The current implementation also uses the popular open source [redis NoSql key-value store](http://redis.io/) for message queueing, as [explained by ServiceStack's tutorial examples](https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-redis).
 
