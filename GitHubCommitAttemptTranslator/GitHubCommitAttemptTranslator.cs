@@ -15,18 +15,19 @@ namespace GitHubCommitAttemptTranslator
     {
         public TranslateCommitAttemptResult Execute(CommitAttempt attempt)
         {
-            dynamic root = JObject.Parse(attempt.Raw);
+            dynamic root = JObject.Parse(attempt.Raw);        
 
             var commits = new List<CommitMessage>();
 
-            foreach (var commitIem in root.commits)
+            foreach (var commitItem in root.commits)
             {
                 var commit = new CommitMessage
                                  {
-                                     Author = commitIem.author.name + " <" + commitIem.author.email + ">",
-                                     Comment = commitIem.message,
-                                     Date = commitIem.timestamp,
-                                     SourceCommit = commitIem.ToString()
+                                     MessageId = commitItem.id,
+                                     Author = commitItem.author.name + " <" + commitItem.author.email + ">",
+                                     Comment = commitItem.message,
+                                     Date = commitItem.timestamp,
+                                     SourceCommit = commitItem.ToString()
                                  };
                 commits.Add(commit);
             }

@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using CommitService.Contract;
 using Infrastructure.Composition;
+using ServiceStack.Common;
 using ServiceStack.Messaging;
+using ServiceStack.Redis;
 using ServiceStack.ServiceInterface;
 
 namespace CommitService
 {
-    public class CommitMessageWrapper : Message<CommitMessage>
-    {
-        public CommitMessageWrapper(CommitMessage message) : base(message)
-        {
-        }
-    }
-
     public class CommitService : Service
     {
         public CommitService()
@@ -27,29 +22,38 @@ namespace CommitService
         [ImportMany]
         private IEnumerable<ITranslateCommitAttempt> _translators = new List<ITranslateCommitAttempt>();
 
+        // TODO: what about exceptions, and what about exceptions when partial success, but not all??
         public object Any(CommitAttempt request)
         {
             var translationResult = Translate(request);
 
             if (translationResult != null)
             {
-                using (var producer = MessageFactory.CreateMessageProducer())
+                var redisClient = new RedisClient();
+                using (var commitsStore = redisClient.As<CommitMessage>())
                 {
-                    //var message = new CommitMessageWrapper(translationResult.Message)
-                    //                  {
-                    //                      RetryAttempts = 5,
-                    //                      ReplyTo = "http://localhost/NOTFOUND2"
-                    //                  };
-                    ////producer.Publish(translationResult.Message);
-                    //producer.Publish(message);
+                    foreach (var commit in translationResult.Commits)
+                    {
+                        commit.Id = commitsStore.GetNextSequence();
+                        commitsStore.Store(commit);
+                    }
                 }
 
-                // Note: Should return false when cannot, instead of throwing the exception,
-                // which will require manually sending to the DeadLetterQueue I think...
                 return new CommitAcknowledge { CanProcess = true };
             }
 
             return new CommitAcknowledge { CanProcess = false };
+        }
+
+        public object Get(CommitMessages request)
+        {
+            var redisClient = new RedisClient();
+            using (var store = redisClient.As<CommitMessage>())
+            {
+                return request.Ids.IsEmpty()
+                           ? store.GetAll()
+                           : store.GetByIds(request.Ids);
+            }
         }
 
         private TranslateCommitAttemptResult Translate(CommitAttempt attempt)
@@ -58,20 +62,17 @@ namespace CommitService
             {
                 try
                 {
-
                     translator.Execute(attempt);
 
-                    if (translator.CanProcess(attempt))
-                    {
-                        var result = translator.Execute(attempt);
+                    if (!translator.CanProcess(attempt))
+                        continue;
 
-                        if (result.Success)
-                        {
-                            return result;
-                        }
+                    var result = translator.Execute(attempt);
 
-                        throw new TranslatorException(translator, attempt);
-                    }
+                    if (result.Success)
+                        return result;
+
+                    throw new TranslatorException(translator, attempt);
                 }
                 catch (Exception ex)
                 {
@@ -81,11 +82,6 @@ namespace CommitService
 
             return null;
             //throw new TranslatorNotFoundException(attempt);
-        }
-
-        public object Any(CommitMessage message)
-        {
-            return new CommitResponse { Result = message.Name + " was processed." };
         }
     }
 }

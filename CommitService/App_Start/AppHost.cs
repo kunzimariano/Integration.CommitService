@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.Web;
 using CommitService.Contract;
 using Infrastructure.Composition;
 using ServiceStack.Common.Utils;
@@ -26,6 +24,8 @@ namespace CommitService.App_Start
 
             Routes
                 .Add<CommitAttempt>("/commit")
+                .Add<CommitMessages>("/commits")
+
             //    //.Add<CommitMessage>("/commitMessage")
               ;
 
