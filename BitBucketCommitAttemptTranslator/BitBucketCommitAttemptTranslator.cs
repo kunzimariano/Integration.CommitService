@@ -12,7 +12,7 @@ namespace BitBucketCommitAttemptTranslator
             return new TranslateCommitAttemptResult
                        {
                            Success = true,
-                           Message = new CommitMessage() { Name = "BitBucket", OriginalAttempt = attempt }
+                           Commits = new [] { new CommitMessage() { Name = "BitBucket", SourceCommit = attempt.ToString() } }
                        };
         }
 

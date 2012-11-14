@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace BitBucketCommitAttemptTranslator.Tests
 {
     [TestFixture]
-    public class BitBucketCommitAttemptTransaltorTests
+    public class BitBucketCommitAttemptTranslatorTests
     {
         private readonly BitBucketCommitAttemptTranslator subject = new BitBucketCommitAttemptTranslator();
 

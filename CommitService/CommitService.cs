@@ -8,6 +8,13 @@ using ServiceStack.ServiceInterface;
 
 namespace CommitService
 {
+    public class CommitMessageWrapper : Message<CommitMessage>
+    {
+        public CommitMessageWrapper(CommitMessage message) : base(message)
+        {
+        }
+    }
+
     public class CommitService : Service
     {
         public CommitService()
@@ -28,17 +35,21 @@ namespace CommitService
             {
                 using (var producer = MessageFactory.CreateMessageProducer())
                 {
-                    producer.Publish(translationResult.Message);
+                    //var message = new CommitMessageWrapper(translationResult.Message)
+                    //                  {
+                    //                      RetryAttempts = 5,
+                    //                      ReplyTo = "http://localhost/NOTFOUND2"
+                    //                  };
+                    ////producer.Publish(translationResult.Message);
+                    //producer.Publish(message);
                 }
 
                 // Note: Should return false when cannot, instead of throwing the exception,
                 // which will require manually sending to the DeadLetterQueue I think...
                 return new CommitAcknowledge { CanProcess = true };
             }
-            else
-            {
-                return new CommitAcknowledge { CanProcess = false };
-            }
+
+            return new CommitAcknowledge { CanProcess = false };
         }
 
         private TranslateCommitAttemptResult Translate(CommitAttempt attempt)
@@ -47,6 +58,9 @@ namespace CommitService
             {
                 try
                 {
+
+                    translator.Execute(attempt);
+
                     if (translator.CanProcess(attempt))
                     {
                         var result = translator.Execute(attempt);

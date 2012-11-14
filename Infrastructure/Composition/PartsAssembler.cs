@@ -7,7 +7,7 @@ namespace Infrastructure.Composition
     {
         public void ComposeParts(object target)
         {
-            var path = PathProvider.GetPath();
+            var path = PathProvider.BinaryPath;
             var directoryCatalog = new DirectoryCatalog(path);
             var container = new CompositionContainer(directoryCatalog);
             container.ComposeParts(target);

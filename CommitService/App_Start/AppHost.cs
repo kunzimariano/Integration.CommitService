@@ -38,7 +38,7 @@ namespace CommitService.App_Start
             container.Register(mqHost.MessageFactory);
 
             mqHost.RegisterHandler<CommitAttempt>(ServiceController.ExecuteMessage);
-            mqHost.RegisterHandler<CommitMessage>(ServiceController.ExecuteMessage);
+            //mqHost.RegisterHandler<CommitMessage>(ServiceController.ExecuteMessage);
 
             mqHost.Start();
         }
