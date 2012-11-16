@@ -84,6 +84,11 @@
                     });
                 });
             });
+
+            $.get("/json/syncreply/MessageErrors", function (data) {
+                console.log(data);
+                $("#error-template").tmpl(data).appendTo("#error-list");
+            });
         });
     </script>
     <div class="content">
@@ -91,6 +96,11 @@
             Associate Commits With VersionOne Work Items</h1>
         <div id="commits">
             <ul id="commits-list">
+            </ul>
+        </div>
+        <h2>Errors</h2>
+        <div id="errors">
+            <ul id="error-list">
             </ul>
         </div>
     </div>
@@ -102,6 +112,17 @@
             <a href="#" class="toggle">click to show original commit data</a><div class="sourceCommit">
                 <pre>
 ${sourceCommit}
+                </pre>
+            </div>
+        </div>
+    </script>
+    <script id="error-template" type="text/x-jquery-tmpl">
+        <div class="commit">
+            <div><label>Error Code:</label> <span>${errorCode}</span></div>
+            <div><label>Message:</label> <span>${message}</span></div>
+            <div class="sourceCommitError">
+                <pre>
+${stackTrace}
                 </pre>
             </div>
         </div>

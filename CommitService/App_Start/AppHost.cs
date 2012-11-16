@@ -25,6 +25,7 @@ namespace CommitService.App_Start
             Routes
                 .Add<CommitAttempt>("/commit")
                 .Add<CommitMessages>("/commits")
+                .Add<MessageErrors>("/errors")
 
             //    //.Add<CommitMessage>("/commitMessage")
               ;
@@ -32,6 +33,7 @@ namespace CommitService.App_Start
             RequestBinders.Add(typeof(CommitAttempt), request => new CommitAttempt() { Raw = request.GetRawBody() });
 
             var redisFactory = new PooledRedisClientManager("localhost:6379");
+            container.Register<IRedisClientsManager>(redisFactory);
             //var mqHost = new RedisMqHost(redisFactory);
             var mqHost = new RedisMqServer(redisFactory);
 

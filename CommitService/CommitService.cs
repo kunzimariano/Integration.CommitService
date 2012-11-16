@@ -10,6 +10,11 @@ using ServiceStack.ServiceInterface;
 
 namespace CommitService
 {
+    public class MessageErrors
+    {
+
+    }
+
     public class CommitService : Service
     {
         public CommitService()
@@ -53,6 +58,16 @@ namespace CommitService
                 return request.Ids.IsEmpty()
                            ? store.GetAll()
                            : store.GetByIds(request.Ids);
+            }
+        }
+
+        public object Get(MessageErrors request)
+        {
+            var client = new RedisClient();
+            using (var store = client.As<MessageError>())
+            {
+                var list = store.Lists["urn:ServiceErrors:All"];
+                return list;
             }
         }
 
