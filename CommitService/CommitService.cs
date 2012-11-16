@@ -80,8 +80,8 @@ namespace CommitService
                 }
             }
 
-            return null;
-            //throw new TranslatorNotFoundException(attempt);
+            //return null;
+            throw new TranslatorNotFoundException(attempt);
         }
     }
 }

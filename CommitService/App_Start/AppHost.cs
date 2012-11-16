@@ -32,7 +32,8 @@ namespace CommitService.App_Start
             RequestBinders.Add(typeof(CommitAttempt), request => new CommitAttempt() { Raw = request.GetRawBody() });
 
             var redisFactory = new PooledRedisClientManager("localhost:6379");
-            var mqHost = new RedisMqHost(redisFactory);
+            //var mqHost = new RedisMqHost(redisFactory);
+            var mqHost = new RedisMqServer(redisFactory);
 
             container.Register<IMessageService>(mqHost);
             container.Register(mqHost.MessageFactory);
