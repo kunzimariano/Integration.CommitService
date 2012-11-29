@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Associate Source Control Commits With VersionOne Stories</title>
+    <title>Associate Source Control Commits With VersionOne Work Items</title>
     <style type="text/css">
         body
         {
@@ -71,14 +71,13 @@ $(document).ready ->
             el = $(this)
             sourceCommit = $(this.nextSibling)
             el.click ->
-                console.log(sourceCommit)
                 if sourceCommit.is(":visible")
                     sourceCommit.hide("slow")
                     el.text("click to show original commit data")
                 else
                     sourceCommit.show("slow")
                     el.text("click to hide")
-        $('.stories').autocomplete
+        $('.workItems').autocomplete
             minLength: 4,
             source: (request, response) ->
                 filter = $(this.element).siblings('.showOnlyInProgress')[0].checked
@@ -97,14 +96,12 @@ $(document).ready ->
                                 items.push { label: data.Assets[i].Attributes.Name.value, value: data.Assets[i].id }
                             response items
             select: (event, ui) ->
-                value = ui.item.value
-                console.log "Real value: " + value
+                value = ui.item.value # real value...
                 ui.item.value = ui.item.label
         $('.showOnlyInProgress').change ->
-            console.log "Changing..."
-            stories = $(this).siblings('.stories');
-            term = stories.val();
-            stories.autocomplete("search", term);
+            workItems = $(this).siblings('.workItems');
+            term = workItems.val();
+            workItems.autocomplete("search", term);
 
     $.get "/commitservice/api.ashx/json/syncreply/MessageErrors", (data) ->
         for i in [0..data.length]
@@ -131,7 +128,7 @@ $(document).ready ->
             <div><label>Comment:</label> <span>${comment}</span></div>
             <div><label>Author:</label> <span>${author}</span></div>
             <div><label>Date:</label> <span>${formatDate(date)}</span></div>
-            <div><form><label>Stories:</label><input class="stories"></input><label style="font-size:75%"> show only In Progress items?</label><input type="checkbox" class="showOnlyInProgress" checked="checked" /></form></div>
+            <div><form><label>Search for Work Item:</label><input class="workItems"></input><label style="font-size:75%"> show only In Progress items?</label><input type="checkbox" class="showOnlyInProgress" checked="checked" /></form></div>
             <a href="#" class="toggle">click to show original commit data</a><div class="sourceCommit">
                 <pre>
 ${sourceCommit}
