@@ -108,6 +108,13 @@ namespace GitHubCommitAttemptTranslator.Tests
             return valid;
         }
 
+        [Test]
+        public void GitHubNewFormat()
+        {
+            var attempt = new CommitAttempt() {Raw = TestData.GitHubNov28};
+            var result = subject.CanProcess(attempt);
+        }
+
         #endregion
 
         #endregion

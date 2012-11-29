@@ -15,7 +15,9 @@ namespace GitHubCommitAttemptTranslator
     {
         public TranslateCommitAttemptResult Execute(CommitAttempt attempt)
         {
-            dynamic root = JObject.Parse(attempt.Raw);        
+            var body = GetDecodedBody(attempt.Raw);
+
+            dynamic root = JObject.Parse(body);        
 
             var commits = new List<CommitMessage>();
 
@@ -39,7 +41,7 @@ namespace GitHubCommitAttemptTranslator
             };
         }
 
-        private readonly Regex _taster = new Regex(@"['""]repository['""]\s*?:\s*?\{\s*['""]url['""]\s*?:\s*?[""']http://github.com", RegexOptions.IgnoreCase);
+        private readonly Regex _taster = new Regex(@"['""]repository['""]:.*?\{.*?['""]url['""]:\s*?[""']https?://github\.com", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         public bool CanProcess(CommitAttempt attempt)
         {
@@ -48,9 +50,21 @@ namespace GitHubCommitAttemptTranslator
                 return false;
             }
 
-            var isMatch = _taster.IsMatch(attempt.Raw);
+            var body = GetDecodedBody(attempt.Raw);
+
+            var isMatch = _taster.IsMatch(body);
 
             return isMatch;
+        }
+
+        private string GetDecodedBody(string raw)
+        {
+            if (raw.Contains("payload="))
+            {
+                var items = raw.Split(new char[] { '=' });
+                raw = System.Web.HttpUtility.UrlDecode(items[1]);
+            }
+            return raw;
         }
     }
 }

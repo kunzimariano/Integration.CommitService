@@ -23,7 +23,7 @@
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f6', endColorstr='#f5f6f6',GradientType=0 ); /* IE6-9 */
         }
         
-        .commit .sourceCommit 
+        .commit .sourceCommit
         {
             display: none;
         }
@@ -49,47 +49,68 @@
             font-weight: bold;
         }
     </style>
-    <script>        window.JSON || document.write('<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js">\x3C/script>')</script>
+    <script>
+        window.JSON || document.write('<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js">\x3C/script>')
+    </script>
+    <link href="Content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
     <script src="Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
     <script src="Scripts/jQuery.tmpl.min.js" type="text/javascript"></script>
-    <script src="Scripts/underscore.min.js" type="text/javascript"></script>
-    <script src="Scripts/backbone.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        function formatDate(jsonDate) {
-            var value = new Date(parseInt(jsonDate.substr(6)));
-            return value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
-        }
+    <script src="Scripts/jquery-ui-1.9.2.min.js" type="text/javascript"></script>
+    <script type="text/coffeescript">
+storyService = "http://localhost/v1web/rest-1.v1/Data/Story?accept=application/json&sel=Name&sel=Name&findin=Name&find="
 
-        $("#commit-template").template("commit-template");
+formatDate = (jsonDate) ->
+    value = new Date(parseInt(jsonDate.substr(6)))
+    return value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear()
+$("#commit-template").template("commit-template")
 
-        $(document).ready(function () {
-            $.ajax("/json/syncreply/CommitMessages").done(function (data) {
-                console.log(data);
-                //$.tmpl("commit-template", data).appendTo("#commits-list");
-                $("#commit-template").tmpl(data).appendTo("#commits-list");
-                $(".commit .toggle").each(function () {
-                    var el = $(this);
-                    var sourceCommit = $(this.nextSibling);
-                    el.click(function () {
-                        console.log(sourceCommit);
-                        if (sourceCommit.is(":visible")) {
-                            sourceCommit.hide("slow");
-                            el.text("click to show original commit data");
+$(document).ready ->
+    $.get "/commitservice/api.ashx/json/syncreply/CommitMessages", (data) ->                
+        $('#commit-template').tmpl(data).appendTo("#commits-list")
+        $('.commit .toggle').each ->
+            el = $(this)
+            sourceCommit = $(this.nextSibling)
+            el.click ->
+                console.log(sourceCommit)
+                if sourceCommit.is(":visible")
+                    sourceCommit.hide("slow")
+                    el.text("click to show original commit data")
+                else
+                    sourceCommit.show("slow")
+                    el.text("click to hide")
+        $('.stories').autocomplete
+            minLength: 4,
+            source: (request, response) ->
+                filter = $(this.element).siblings('.showOnlyInProgress')[0].checked
+                if filter == true
+                    filter = "&where=Status.Name='In%20Progress'"
+                else
+                    filter = ""
+                term = request.term    
+                $.ajax
+                    url: storyService + term + filter
+                    headers: Authorization: "Basic " + btoa("admin:admin")
+                    success: (data) ->  
+                        if data.total > 0 
+                            items = []
+                            for i in [0..data.total-1]
+                                items.push { label: data.Assets[i].Attributes.Name.value, value: data.Assets[i].id }
+                            response items
+            select: (event, ui) ->
+                value = ui.item.value
+                console.log "Real value: " + value
+                ui.item.value = ui.item.label
+        $('.showOnlyInProgress').change ->
+            console.log "Changing..."
+            stories = $(this).siblings('.stories');
+            term = stories.val();
+            stories.autocomplete("search", term);
 
-                        }
-                        else {
-                            sourceCommit.show("slow");
-                            el.text("click to hide");
-                        }
-                    });
-                });
-            });
-
-            $.get("/json/syncreply/MessageErrors", function (data) {
-                console.log(data);
-                $("#error-template").tmpl(data).appendTo("#error-list");
-            });
-        });
+    $.get "/commitservice/api.ashx/json/syncreply/MessageErrors", (data) ->
+        for i in [0..data.length]
+            stackTrace = data[i].stackTrace
+            commitMatches = stackTrace.match(/raw:"(.*?)\]CommitService.Contract/g)
+        $("#error-template").tmpl(data).appendTo("#error-list")
     </script>
     <div class="content">
         <h1>
@@ -98,7 +119,8 @@
             <ul id="commits-list">
             </ul>
         </div>
-        <h2>Errors</h2>
+        <h2>
+            Errors</h2>
         <div id="errors">
             <ul id="error-list">
             </ul>
@@ -109,6 +131,7 @@
             <div><label>Comment:</label> <span>${comment}</span></div>
             <div><label>Author:</label> <span>${author}</span></div>
             <div><label>Date:</label> <span>${formatDate(date)}</span></div>
+            <div><form><label>Stories:</label><input class="stories"></input><label style="font-size:75%"> show only In Progress items?</label><input type="checkbox" class="showOnlyInProgress" checked="checked" /></form></div>
             <a href="#" class="toggle">click to show original commit data</a><div class="sourceCommit">
                 <pre>
 ${sourceCommit}
@@ -127,6 +150,7 @@ ${stackTrace}
             </div>
         </div>
     </script>
+    <script src="Scripts/coffee-script.js" type="text/javascript"></script>
 </head>
 <body>
 </body>
