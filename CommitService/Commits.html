@@ -133,15 +133,19 @@ associateWorkItemWithCommitCommand = ->
     </Relation>
 </Asset>
 """
-    
+    assetJson = "[{Name:'Commit',URL:'#{url}',OnMenu:true},[{'Asset':'#{workItemId}'}]]"
+
     console.log assetXml
+    console.log assetJson
+    
+    data = assetJson
+    format = "?format=application/json"
 
     $.ajax
         type: 'POST'
-        url: linkService
+        url: linkService + format
         headers: headers
-        data: assetXml
-        dataType: 'xml'
+        data: data
         success: (data) ->  
             console.log data    
     </script>
