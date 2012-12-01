@@ -12,9 +12,10 @@
     <script src="Scripts/jquery-ui-1.9.2.min.js" type="text/javascript"></script>
     <script src="Scripts/moment.js" type="text/javascript"></script>
     <script type="text/coffeescript">
+debug = true
 headers = Authorization: "Basic " + btoa("admin:admin")        
 singleCommitUrl = "http://jgough/apiservice/commits.html?id="
-storyService = "http://jgough/v1web/rest-1.v1/Data/PrimaryWorkitem?accept=application/json&sel=Name,Number&findin=Name&find="
+workItemService = "http://jgough/v1web/rest-1.v1/Data/PrimaryWorkitem?accept=application/json&sel=Name,Number&findin=Name&find="
 linkService = "http://jgough/v1web/rest-1.v1/Data/Link"
 
 commitId = null
@@ -61,25 +62,7 @@ $(document).ready ->
             $('.workItems').autocomplete
                 minLength: 4,
                 source: (request, response) ->
-                    filter = $(this.element).siblings('.showOnlyInProgress')[0].checked
-                    associateCommitCommand = $($(this.element).siblings('.associateCommitCommand')[0])
-                    if filter == true
-                        filter = "&where=Status.Name='In%20Progress'"
-                    else
-                        filter = ""
-                    term = request.term    
-                    $.ajax
-                        url: storyService + term + filter
-                        headers: headers
-                        success: (data) ->  
-                            if data.total > 0 
-                                items = []
-                                for i in [0..data.total-1]
-                                    item = data.Assets[i]
-                                    items.push { label: item.Attributes.Number.value + ": " + item.Attributes.Name.value, value: item.id }
-                                response items
-                                disableAssociate(associateCommitCommand)
-
+                    getWorkItems(this, request, response)
                 select: (event, ui) ->
                     commitId = event.target.attributes["data-commitId"].value
                     associateCommitCommand = $($(event.target).siblings('.associateCommitCommand')[0])
@@ -100,6 +83,26 @@ $(document).ready ->
             $("#error-template").tmpl(data).appendTo("#error-list")
         else 
             $("#errorsDiv").hide()
+
+getWorkItems = (context, request, response) ->
+    filter = $(context.element).siblings('.showOnlyInProgress')[0].checked
+    associateCommitCommand = $($(context.element).siblings('.associateCommitCommand')[0])
+    if filter == true
+        filter = "&where=Status.Name='In%20Progress'"
+    else
+        filter = ""
+    term = request.term    
+    $.ajax
+        url: workItemService + term + filter
+        headers: headers
+        success: (data) ->  
+            if data.total > 0 
+                items = []
+                for i in [0..data.total-1]
+                    item = data.Assets[i]
+                    items.push { label: item.Attributes.Number.value + ": " + item.Attributes.Name.value, value: item.id }
+                response items
+                disableAssociate(associateCommitCommand)
             
 toggleSections = ->
     if singleItem?
@@ -120,23 +123,10 @@ disableAssociate = (associateCommitCommand) ->
         # nothing..
 
 associateWorkItemWithCommitCommand = ->
-    console.log "hello"
     url = singleCommitUrl + commitId
-
-    assetXml = """
-<Asset>
-    <Attribute name="Name" act="set">Commit</Attribute>
-    <Attribute name="URL" act="set">#{url}</Attribute>
-    <Attribute name="OnMenu" act="set">true</Attribute>
-    <Relation name="Asset" act="set">
-        <Asset idref="#{workItemId}" />
-    </Relation>
-</Asset>
-"""
+    
     assetJson = "[{Name:'Commit',URL:'#{url}',OnMenu:true},[{'Asset':'#{workItemId}'}]]"
-
-    console.log assetXml
-    console.log assetJson
+    console.log assetJson if debug
     
     data = assetJson
     format = "?format=application/json"
@@ -147,7 +137,7 @@ associateWorkItemWithCommitCommand = ->
         headers: headers
         data: data
         success: (data) ->  
-            console.log data    
+            console.log data if debug    
     </script>
     <div class="content">
         <h1 id="title" style="display:none">
