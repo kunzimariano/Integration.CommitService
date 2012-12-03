@@ -13,10 +13,13 @@
     <script src="Scripts/moment.js" type="text/javascript"></script>
     <script type="text/coffeescript">
 debug = true
-headers = Authorization: "Basic " + btoa("admin:admin")        
-singleCommitUrl = "http://jgough/apiservice/commits.html?id="
-workItemService = "http://jgough/v1web/rest-1.v1/Data/PrimaryWorkitem?accept=application/json&sel=Name,Number&findin=Name&find="
-linkService = "http://jgough/v1web/rest-1.v1/Data/Link"
+headers = Authorization: "Basic " + btoa("admin:admin")
+singleCommitUrl = "/apiservice/api.ashx/commits.html?id="
+commitsServiceUrl = "/apiservice/api.ashx/json/syncreply/CommitMessages"
+#workItemService = "http://jgough/v1web/rest-1.v1/Data/PrimaryWorkitem?accept=application/json&sel=Name,Number&findin=Name&find="
+workItemService = "/platformtest/rest-1.v1/Data/PrimaryWorkitem?accept=application/json&sel=Name,Number&findin=Name&find="
+#linkService = "http://jgough/v1web/rest-1.v1/Data/Link"
+linkService = "/platformtest/rest-1.v1/Data/Link"
 
 commitId = null
 workItemId = null
@@ -40,7 +43,7 @@ window.formatDate = (jsonDate) ->
 $("#commit-template").template("commit-template")
 
 $(document).ready ->
-    url = "/apiservice/json/syncreply/CommitMessages"
+    url = commitsServiceUrl
     if singleItem?
         url += "?ids=" + singleItem
     $.get url, (data) -> 
