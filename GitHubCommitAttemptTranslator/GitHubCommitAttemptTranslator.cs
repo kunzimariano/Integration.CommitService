@@ -21,6 +21,10 @@ namespace GitHubCommitAttemptTranslator
 
             var commits = new List<CommitMessage>();
 
+            // TODO: make a copy instead of parse if can be done...
+            dynamic rootWithoutCommits = root.DeepClone();
+            rootWithoutCommits.commits.RemoveAll();
+
             foreach (var commitItem in root.commits)
             {
                 var commit = new CommitMessage
@@ -29,8 +33,10 @@ namespace GitHubCommitAttemptTranslator
                                      Author = commitItem.author.name + " <" + commitItem.author.email + ">",
                                      Comment = commitItem.message,
                                      Date = commitItem.timestamp,
-                                     SourceCommit = commitItem.ToString()
                                  };
+                dynamic fullContextCommit = rootWithoutCommits.DeepClone();
+                fullContextCommit.commits.Add(commitItem);
+                commit.SourceCommit = fullContextCommit.ToString();
                 commits.Add(commit);
             }
 
