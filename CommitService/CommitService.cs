@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using CommitService.Contract;
+using CommitService.Eventing;
 using Infrastructure.Composition;
 using ServiceStack.Common;
 using ServiceStack.Messaging;
@@ -41,6 +43,8 @@ namespace CommitService
                     {
                         commit.Id = commitsStore.GetNextSequence();
                         commitsStore.Store(commit);
+                        // Send to connected clients
+                        EventStream.NotifyAllClients("commitSent", commit);
                     }
                 }
 
@@ -55,9 +59,12 @@ namespace CommitService
             var redisClient = new RedisClient();
             using (var store = redisClient.As<CommitMessage>())
             {
-                return request.Ids.IsEmpty()
+                var items = request.Ids.IsEmpty()
                            ? store.GetAll()
                            : store.GetByIds(request.Ids);
+
+                var list = items.ToList();
+                return list.OrderByDescending(x => x.Date);
             }
         }
 
