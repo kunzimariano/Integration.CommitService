@@ -14,10 +14,10 @@ listenForEvents = ->
 
 	$.connection.eventStream.client.Notify = (topic, message) ->		
 		data = JSON.parse message
-		newItem = $('#commit-template').tmpl([data]);
-		newItem.prependTo("#commits-list");		
-		newItem.fadeOut(100);
-		newItem.fadeIn(1500);
-		newItem.css({border:"2px solid darkgreen"});
+		newItem = $('#commit-template').tmpl([data])
+		newItem.prependTo("#commits-list")
+		newItem.fadeOut(100)
+		newItem.fadeIn(1500)
+		newItem.css({border:"2px solid darkgreen"})
 		        
 window.listenForEvents = listenForEvents
