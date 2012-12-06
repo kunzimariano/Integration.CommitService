@@ -5,10 +5,13 @@ using System.Linq;
 using CommitService.Contract;
 using CommitService.Eventing;
 using Infrastructure.Composition;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using ServiceStack.Common;
 using ServiceStack.Messaging;
 using ServiceStack.Redis;
 using ServiceStack.ServiceInterface;
+using ServiceStack.Text;
 
 namespace CommitService
 {
@@ -44,7 +47,7 @@ namespace CommitService
                         commit.Id = commitsStore.GetNextSequence();
                         commitsStore.Store(commit);
                         // Send to connected clients
-                        EventStream.NotifyAllClients("commitSent", commit);
+                        EventStream.Publish<CommitMessage>(commit);
                     }
                 }
 

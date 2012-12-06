@@ -1,23 +1,53 @@
-﻿done = ->
-	console.log "**Connected** to the CommitService event stream"
+﻿class EventStream
+	constructor: (@hubName="eventStream", @autoStart=true, @debug=true) ->
+		@_topics = []
+		@_clientDefine "Receive", @receive
+		if @autoStart
+			@start()
 
-fail = ->
-	console.log "Could not establish connection to the CommitService event stream"
+	start: =>
+		console.log "Starting connection" if @debug
+		# NOTE: { jsonp: true } causes groups (for topics) to fail...
+		$.signalR.hub.start({  }).done(@done).fail(@fail)
+		$.signalR.hub.error @error
 
-error = ->
-	console.log "error communicating with the CommitService event stream"
+	subscribe: (topic, callback) =>
+		@[topic] = callback
+		@_topics.push topic
 
-listenForEvents = ->
-	$.connection.hub.start({ jsonp: true }).done(done).fail(fail)
+	on: (topic, callback) =>
+		@subscribe topic, callback
 
-	$.connection.hub.error(error)
+	receive: (topic, message) =>
+		try
+			console.log "Receive: " + topic if @debug
+			message = JSON.parse(message)
+			@[topic] message
+		catch err
+			console.log err if @debug
+			@error err
 
-	$.connection.eventStream.client.Notify = (topic, message) ->		
-		data = JSON.parse message
-		newItem = $('#commit-template').tmpl([data])
-		newItem.prependTo("#commits-list")
-		newItem.fadeOut(100)
-		newItem.fadeIn(1500)
-		newItem.css({border:"2px solid darkgreen"})
-		        
-window.listenForEvents = listenForEvents
+	done: =>
+		console.log "Connected successfully to the EventStream" if @debug
+		for topic in @_topics
+			@_serverInvoke 'subscribe', topic
+
+	fail: =>
+		console.log "Could not establish connection to the EventStream" if @debug
+
+	error: (error) ->
+		console.log("Error communicating with the EventStream: " + error) if @debug
+
+	_clientDefine: (memberName, func) ->
+		$.signalR[@hubName].client[memberName] = func
+
+	_serverInvoke: (funcName, arg) ->
+		$.signalR[@hubName].server[funcName] arg
+
+window.EventStream = EventStream
+
+"""
+class LiveList extends EventStream
+	constructor: (targetSelector, formatFunc, @hubName="eventStream", @autoStart=true, @debug=true) ->
+		super(@hubName, @autoStart, @debug)
+"""

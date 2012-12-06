@@ -91,7 +91,15 @@ $ ->
         else 
             $("#errorsDiv").hide()
     
-    listenForEvents()
+    eventStream = new EventStream()
+    
+    eventStream.on "CommitMessage", (commitMessage) ->
+        el = $('#commit-template').tmpl([commitMessage])
+        if el != null
+            el.prependTo("#commits-list")
+            el.fadeOut 100
+            el.fadeIn 1500
+            el.css {border:"2px solid darkgreen"}           
 
 getWorkItems = (context, request, response) ->
     filter = $(context.element).siblings('.showOnlyInProgress')[0].checked
