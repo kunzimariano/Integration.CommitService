@@ -53,6 +53,8 @@ $ ->
     $.get url, (data) ->
         toggleSections()
         $('#commit-template').tmpl(data).appendTo("#commits-list")
+        $('.commit .toggle').each configToggleCommitDetails
+        """
         $('.commit .toggle').each ->
             el = $(this)
             sourceCommit = $(this.nextSibling)
@@ -63,6 +65,7 @@ $ ->
                 else
                     sourceCommit.show("slow")
                     el.text("click to hide")
+        """
         if singleItem 
             $('.searchForWorkItem').hide()
         else
@@ -94,12 +97,25 @@ $ ->
     eventStream = new EventStream()
     
     eventStream.on "CommitMessage", (commitMessage) ->
-        el = $('#commit-template').tmpl([commitMessage])
-        if el != null
-            el.prependTo("#commits-list")
-            el.fadeOut 100
-            el.fadeIn 1500
-            el.css {border:"2px solid darkgreen"}           
+        item = $('#commit-template').tmpl([commitMessage])
+        if item != null
+            item.prependTo("#commits-list")
+            item.fadeOut 100
+            item.fadeIn 1500
+            item.css {border:"2px solid darkgreen"}
+            
+            item.find('.toggle').each configToggleCommitDetails
+
+configToggleCommitDetails = ->
+    el = $(this)
+    sourceCommit = $(this.nextSibling)
+    el.click ->
+        if sourceCommit.is(":visible")
+            sourceCommit.hide("slow")
+            el.text("click to show original commit data")
+        else
+            sourceCommit.show("slow")
+            el.text("click to hide")
 
 getWorkItems = (context, request, response) ->
     filter = $(context.element).siblings('.showOnlyInProgress')[0].checked
