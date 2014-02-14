@@ -1,16 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitService", "CommitService\CommitService.csproj", "{ABCCF47A-C880-42C3-BF33-A8D300D844CA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubCommitAttemptTranslator", "GitHubCommitAttemptTranslator\GitHubCommitAttemptTranslator.csproj", "{127B136A-A878-46E5-9964-57FB792F5981}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitService.Contract", "CommitService.Contract\CommitService.Contract.csproj", "{2394A23E-0861-44AB-BE9B-7CE4F4022D7A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBucketCommitAttemptTranslator", "BitBucketCommitAttemptTranslator\BitBucketCommitAttemptTranslator.csproj", "{806FF908-32E3-4332-99E7-9B43185247DD}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Translators", "Translators", "{B0C1E7BE-3A80-4932-9B3E-541B00CDDBAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E5194EDB-853D-4ECC-AC8E-B10BDD5C72A7}"
@@ -25,9 +15,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BitBucket", "BitBucket", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{3EA3447F-5A56-4D86-9D58-86A4B429E124}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitService", "CommitService\CommitService.csproj", "{ABCCF47A-C880-42C3-BF33-A8D300D844CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubCommitAttemptTranslator", "GitHubCommitAttemptTranslator\GitHubCommitAttemptTranslator.csproj", "{127B136A-A878-46E5-9964-57FB792F5981}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommitService.Contract", "CommitService.Contract\CommitService.Contract.csproj", "{2394A23E-0861-44AB-BE9B-7CE4F4022D7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBucketCommitAttemptTranslator", "BitBucketCommitAttemptTranslator\BitBucketCommitAttemptTranslator.csproj", "{806FF908-32E3-4332-99E7-9B43185247DD}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubCommitAttemptTranslator.Tests", "GitHubCommitAttemptTranslator.Tests\GitHubCommitAttemptTranslator.Tests.csproj", "{DCC40D85-6B13-4936-B0A2-73F63E1B02E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBucketCommitAttemptTranslator.Tests", "BitBucketCommitAttemptTranslatorTests\BitBucketCommitAttemptTranslator.Tests.csproj", "{CB81413C-7BEA-48C6-89ED-0243C8511031}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TFS", "TFS", "{3E1229A7-71FF-49EB-9B72-4E8EEA30ECDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFSCommitAttemptTranslator", "TFSCommitAttemptTranslator\TFSCommitAttemptTranslator.csproj", "{D85914E1-C344-444E-9E09-4318B74A53F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFSCommitAttemptTranslator.Tests", "TFSCommitAttemptTranslator.Tests\TFSCommitAttemptTranslator.Tests.csproj", "{B41E19FB-3966-4827-BC41-0AF577B144AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +69,14 @@ Global
 		{CB81413C-7BEA-48C6-89ED-0243C8511031}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB81413C-7BEA-48C6-89ED-0243C8511031}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB81413C-7BEA-48C6-89ED-0243C8511031}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D85914E1-C344-444E-9E09-4318B74A53F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D85914E1-C344-444E-9E09-4318B74A53F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D85914E1-C344-444E-9E09-4318B74A53F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D85914E1-C344-444E-9E09-4318B74A53F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B41E19FB-3966-4827-BC41-0AF577B144AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B41E19FB-3966-4827-BC41-0AF577B144AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B41E19FB-3966-4827-BC41-0AF577B144AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B41E19FB-3966-4827-BC41-0AF577B144AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,9 +84,12 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D373AA2A-A83E-4C95-8E2C-EC60FEFF5C9B} = {B0C1E7BE-3A80-4932-9B3E-541B00CDDBAE}
 		{3EA3447F-5A56-4D86-9D58-86A4B429E124} = {B0C1E7BE-3A80-4932-9B3E-541B00CDDBAE}
+		{3E1229A7-71FF-49EB-9B72-4E8EEA30ECDE} = {B0C1E7BE-3A80-4932-9B3E-541B00CDDBAE}
 		{806FF908-32E3-4332-99E7-9B43185247DD} = {D373AA2A-A83E-4C95-8E2C-EC60FEFF5C9B}
 		{CB81413C-7BEA-48C6-89ED-0243C8511031} = {D373AA2A-A83E-4C95-8E2C-EC60FEFF5C9B}
 		{127B136A-A878-46E5-9964-57FB792F5981} = {3EA3447F-5A56-4D86-9D58-86A4B429E124}
 		{DCC40D85-6B13-4936-B0A2-73F63E1B02E7} = {3EA3447F-5A56-4D86-9D58-86A4B429E124}
+		{D85914E1-C344-444E-9E09-4318B74A53F2} = {3E1229A7-71FF-49EB-9B72-4E8EEA30ECDE}
+		{B41E19FB-3966-4827-BC41-0AF577B144AD} = {3E1229A7-71FF-49EB-9B72-4E8EEA30ECDE}
 	EndGlobalSection
 EndGlobal
