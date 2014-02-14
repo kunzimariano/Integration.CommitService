@@ -17,7 +17,7 @@ namespace GitHubCommitAttemptTranslator
         {
             var body = GetDecodedBody(attempt.Raw);
 
-            dynamic root = JObject.Parse(body);        
+            dynamic root = JObject.Parse(body);
 
             var commits = new List<CommitMessage>();
 

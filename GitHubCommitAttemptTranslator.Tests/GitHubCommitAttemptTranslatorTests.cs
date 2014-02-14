@@ -79,7 +79,7 @@ namespace GitHubCommitAttemptTranslator.Tests
             var result = subject.Execute(commitAttempt);
 
             Assert.IsTrue(result.Success);
-            Assert.AreEqual(2, result.Commits.Count());
+            Assert.AreEqual(2, result.Commits.Count);
         }
 
         [Test]
