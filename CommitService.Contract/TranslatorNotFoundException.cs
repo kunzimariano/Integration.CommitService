@@ -8,7 +8,7 @@ namespace CommitService.Contract
 
         public TranslatorNotFoundException(CommitAttempt attempt)
             : base(string.Format("Unable to find a translator for incoming CommitAttempt starting with body: {0}",
-                                 attempt.Raw.Substring(0, attempt.Raw.Length < 50 ? attempt.Raw.Length : 50)))
+                                 attempt.RawBody.Substring(0, attempt.RawBody.Length < 50 ? attempt.RawBody.Length : 50)))
         {
             Attempt = attempt;
         }

@@ -15,7 +15,7 @@ namespace GitHubCommitAttemptTranslator
     {
         public TranslateCommitAttemptResult Execute(CommitAttempt attempt)
         {
-            var body = GetDecodedBody(attempt.Raw);
+            var body = GetDecodedBody(attempt.RawBody);
 
             dynamic root = JObject.Parse(body);
 
@@ -51,12 +51,12 @@ namespace GitHubCommitAttemptTranslator
 
         public bool CanProcess(CommitAttempt attempt)
         {
-            if (string.IsNullOrEmpty(attempt.Raw))
+            if (string.IsNullOrEmpty(attempt.RawBody))
             {
                 return false;
             }
 
-            var body = GetDecodedBody(attempt.Raw);
+            var body = GetDecodedBody(attempt.RawBody);
 
             var isMatch = _taster.IsMatch(body);
 

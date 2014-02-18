@@ -75,7 +75,7 @@ namespace GitHubCommitAttemptTranslator.Tests
         [Test]
         public void Execute_succeeds_for_valid_CommitAttempt()
         {
-            var commitAttempt = new CommitAttempt() { Raw = TestData.FullyFormedAttemptBody };
+            var commitAttempt = new CommitAttempt() { RawBody = TestData.FullyFormedAttemptBody };
             var result = subject.Execute(commitAttempt);
 
             Assert.IsTrue(result.Success);
@@ -85,7 +85,7 @@ namespace GitHubCommitAttemptTranslator.Tests
         [Test]
         public void Execute_creates_three_valid_CommitMessages_from_single_CommitAttempt_with_three_commits()
         {
-            var attempt = new CommitAttempt() {Raw = TestData.ThreeValidCommitsFragment};
+            var attempt = new CommitAttempt() {RawBody = TestData.ThreeValidCommitsFragment};
 
             var result = subject.Execute(attempt);
 
@@ -111,7 +111,7 @@ namespace GitHubCommitAttemptTranslator.Tests
         [Test]
         public void GitHubNewFormat()
         {
-            var attempt = new CommitAttempt() {Raw = TestData.GitHubNov28};
+            var attempt = new CommitAttempt() {RawBody = TestData.GitHubNov28};
             var result = subject.CanProcess(attempt);
         }
 
@@ -165,7 +165,7 @@ namespace GitHubCommitAttemptTranslator.Tests
 
         private bool RunCanProcessTest(string attemptBody)
         {
-            var attemptMessage = new CommitAttempt { Raw = attemptBody };
+            var attemptMessage = new CommitAttempt { RawBody = attemptBody };
 
             var result = subject.CanProcess(attemptMessage);
 

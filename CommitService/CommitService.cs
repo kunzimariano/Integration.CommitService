@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using CommitService.Contract;
@@ -87,8 +88,6 @@ namespace CommitService
             {
                 try
                 {
-                    translator.Execute(attempt);
-
                     if (!translator.CanProcess(attempt))
                         continue;
 

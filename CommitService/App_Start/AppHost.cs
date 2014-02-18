@@ -5,6 +5,7 @@ using ServiceStack.Messaging;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Messaging;
 using ServiceStack.WebHost.Endpoints;
+using ServiceStack.WebHost.Endpoints.Extensions;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(CommitService.App_Start.AppHost), "Start")]
 
@@ -22,6 +23,13 @@ namespace CommitService.App_Start
 
             ServiceStack.Text.JsConfig.EmitCamelCaseNames = true;
 
+			RequestBinders.Add(typeof(CommitAttempt), request => new CommitAttempt()
+			{
+				UserAgent = request.Headers["User-Agent"],
+				RawBody = request.GetRawBody()
+			});
+			
+
             Routes
                 .Add<CommitAttempt>("/commit")
                 .Add<CommitMessages>("/commits")
@@ -29,8 +37,6 @@ namespace CommitService.App_Start
 
             //    //.Add<CommitMessage>("/commitMessage")
               ;
-
-            RequestBinders.Add(typeof(CommitAttempt), request => new CommitAttempt() { Raw = request.GetRawBody() });
 
             var redisFactory = new PooledRedisClientManager("localhost:6379");
             container.Register<IRedisClientsManager>(redisFactory);

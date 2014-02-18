@@ -145,7 +145,7 @@ namespace BitBucketCommitAttemptTranslator.Tests
 
         private bool RunCanProcessTest(string attemptBody)
         {
-            var attemptMessage = new CommitAttempt { Raw = attemptBody };
+            var attemptMessage = new CommitAttempt { RawBody = attemptBody };
 
             var result = subject.CanProcess(attemptMessage);
 

@@ -20,12 +20,12 @@ namespace BitBucketCommitAttemptTranslator
 
         public bool CanProcess(CommitAttempt attempt)
         {
-            if (string.IsNullOrEmpty(attempt.Raw))
+            if (string.IsNullOrEmpty(attempt.RawBody))
             {
                 return false;
             }
 
-            var isMatch = _taster.IsMatch(attempt.Raw);
+            var isMatch = _taster.IsMatch(attempt.RawBody);
 
             return isMatch;
         }

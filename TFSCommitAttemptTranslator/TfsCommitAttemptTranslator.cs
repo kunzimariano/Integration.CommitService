@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.WebSockets;
 using System.Xml.Linq;
 using CommitService.Contract;
 
@@ -33,17 +28,17 @@ namespace TFSCommitAttemptTranslator
 
 		public bool CanProcess(CommitAttempt attempt)
 		{
-			if (string.IsNullOrEmpty(attempt.Raw))
+			if (string.IsNullOrEmpty(attempt.RawBody))
 				return false;
 
-			string content = HttpUtility.HtmlDecode(attempt.Raw);
+			string content = HttpUtility.HtmlDecode(attempt.RawBody);
 
 			return _canProcessPattern.IsMatch(content);
 		}
 
 		private XDocument DecodeContentAndCreateDocument(CommitAttempt attempt)
 		{
-			string content = HttpUtility.HtmlDecode(attempt.Raw);
+			string content = HttpUtility.HtmlDecode(attempt.RawBody);
 			Match match = _eventPattern.Match(content);
 			var document = XDocument.Parse(match.Value);
 			return document;

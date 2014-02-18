@@ -224,6 +224,10 @@
       <Project>{EFF3CB06-D5F8-4614-8832-B7DFC50F96E3}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TFSCommitAttemptTranslator\TFSCommitAttemptTranslator.csproj">
+      <Project>{d85914e1-c344-444e-9e09-4318b74a53f2}</Project>
+      <Name>TFSCommitAttemptTranslator</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

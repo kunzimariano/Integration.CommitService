@@ -19,10 +19,10 @@ namespace TFSCommitAttemptTranslator.Tests
 		public void SetUp()
 		{
 			var validSampleData = File.ReadAllText("ValidSample.xml");
-			_validAttempt = new CommitAttempt() { Raw = validSampleData };
+			_validAttempt = new CommitAttempt() { RawBody = validSampleData };
 
 			var inValidSampleData = File.ReadAllText("InValidSample.xml");
-			_invalidAttempt = new CommitAttempt() { Raw = inValidSampleData };
+			_invalidAttempt = new CommitAttempt() { RawBody = inValidSampleData };
 		}
 
 		[Test]
