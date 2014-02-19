@@ -31,9 +31,10 @@ namespace TFSCommitAttemptTranslator
 			if (string.IsNullOrEmpty(attempt.RawBody))
 				return false;
 
-			string content = HttpUtility.HtmlDecode(attempt.RawBody);
+			if (attempt.UserAgent.StartsWith("Team Foundation"))
+				return true;
 
-			return _canProcessPattern.IsMatch(content);
+			return false;
 		}
 
 		private XDocument DecodeContentAndCreateDocument(CommitAttempt attempt)

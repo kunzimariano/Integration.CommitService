@@ -19,10 +19,18 @@ namespace TFSCommitAttemptTranslator.Tests
 		public void SetUp()
 		{
 			var validSampleData = File.ReadAllText("ValidSample.xml");
-			_validAttempt = new CommitAttempt() { RawBody = validSampleData };
+			_validAttempt = new CommitAttempt()
+			{
+				RawBody = validSampleData,
+				UserAgent = "Team Foundation (TfsJobAgent.exe, 10.0.40219.1)"
+			};
 
 			var inValidSampleData = File.ReadAllText("InValidSample.xml");
-			_invalidAttempt = new CommitAttempt() { RawBody = inValidSampleData };
+			_invalidAttempt = new CommitAttempt()
+			{
+				RawBody = inValidSampleData,
+				UserAgent = "Team Foundation (TfsJobAgent.exe, 10.0.40219.1)"
+			};
 		}
 
 		[Test]
@@ -33,8 +41,9 @@ namespace TFSCommitAttemptTranslator.Tests
 		}
 
 		[Test]
-		public void CanProcess_is_false_for_invalid_CommitAttempt()
+		public void CanProcess_is_false_for_invalid_UserAgent()
 		{
+			_invalidAttempt.UserAgent = "nonsense";
 			bool canProcess = _translator.CanProcess(_invalidAttempt);
 			Assert.False(canProcess);
 		}
