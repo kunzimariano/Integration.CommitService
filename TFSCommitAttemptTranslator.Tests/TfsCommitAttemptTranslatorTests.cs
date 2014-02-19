@@ -2,6 +2,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using ApprovalTests;
+using ApprovalTests.Reporters;
+using ApprovalUtilities.Utilities;
 using CommitService.Contract;
 using NUnit.Framework;
 
@@ -65,6 +68,16 @@ namespace TFSCommitAttemptTranslator.Tests
 
 			Assert.IsFalse(result.Success);
 			Assert.AreEqual(1, result.Commits.Count);
+		}
+
+
+		[Test]
+		[UseReporter(typeof(DiffReporter))]
+		public void Execute_Result_Matches_Expectation()
+		{
+			TranslateCommitAttemptResult result = _translator.Execute(_validAttempt);
+			CommitMessage cm = result.Commits[0];
+			Approvals.Verify(StringUtils.WritePropertiesToString(cm));
 		}
 	}
 }
